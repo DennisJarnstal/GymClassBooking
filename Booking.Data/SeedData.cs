@@ -24,7 +24,7 @@ namespace Booking.Data
 
             ArgumentNullException.ThrowIfNull(nameof(services));
 
-            //if (db.GymClasses.Any()) return;
+            if (db.GymClasses.Any()) return;
 
             roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
             ArgumentNullException.ThrowIfNull(roleManager);
