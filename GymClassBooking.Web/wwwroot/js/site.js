@@ -5,6 +5,7 @@ function removeForm()[]{
     createAjax.innerHTML = "";
 }
 
-function fail() {
-    console.log('fail');
+function failCreate(response) {
+    console.log(response, 'failed to create');
+    createAjax.innerHTML = response.responseText;
 }

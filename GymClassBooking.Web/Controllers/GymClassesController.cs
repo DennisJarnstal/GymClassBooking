@@ -101,11 +101,12 @@ namespace GymClassBooking.Web.Controllers
             {
                 db.Add(gymClass);
                 await db.SaveChangesAsync();
-                return Request.IsAjax() ? PartialView("GymClassesPatrial", await db.GymClasses.ToListAsync()) : RedirectToAction(nameof(Index));
+                return Request.IsAjax() ? PartialView("GymClass", gymClass) : RedirectToAction(nameof(Index));
             }
             if (Request.IsAjax())
             {
-                return StatusCode(StatusCodes.Status400BadRequest);
+                Response.StatusCode = StatusCodes.Status400BadRequest;
+                return PartialView("CreatePartial", gymClass);
             }
 
             return View(gymClass);
