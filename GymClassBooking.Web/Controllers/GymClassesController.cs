@@ -12,6 +12,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using GymClassBooking.Web.Extensions;
 
 namespace GymClassBooking.Web.Controllers
 {
@@ -85,7 +86,8 @@ namespace GymClassBooking.Web.Controllers
         // GET: GymClasses/Create
         public IActionResult Create()
         {
-            return View();
+            
+            return Request.IsAjax() ? PartialView("CreatePartial") : View();
         }
 
         // POST: GymClasses/Create
@@ -99,8 +101,13 @@ namespace GymClassBooking.Web.Controllers
             {
                 db.Add(gymClass);
                 await db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Request.IsAjax() ? PartialView("GymClassesPatrial", await db.GymClasses.ToListAsync()) : RedirectToAction(nameof(Index));
             }
+            if (Request.IsAjax())
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+
             return View(gymClass);
         }
 
